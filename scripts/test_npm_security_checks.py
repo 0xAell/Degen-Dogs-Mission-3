@@ -5,6 +5,8 @@ import importlib.util
 import io
 import json
 import os
+import re
+import shlex
 import sys
 import tempfile
 import time
@@ -14,6 +16,43 @@ from pathlib import Path
 
 MODULE_PATH = Path(__file__).with_name("run_npm_security_checks.py")
 CI_WORKFLOW_PATH = MODULE_PATH.parent.parent / ".github" / "workflows" / "ci.yml"
+
+
+def test_local_vite_servers_bind_only_to_loopback() -> None:
+    manifest = json.loads((MODULE_PATH.parent.parent / "package.json").read_text(encoding="utf-8"))
+    for script, command in (("dev", ["vite"]), ("preview", ["vite", "preview"])):
+        args = shlex.split(manifest["scripts"][script])
+        assert args[:len(command)] == command, script
+        assert args.count("--host") == 1, script
+        assert args[args.index("--host") + 1] == "127.0.0.1", script
+        assert not any(arg.startswith("--host=") for arg in args), script
+
+
+def test_locked_vite_and_native_resolver_include_security_fixes() -> None:
+    root = MODULE_PATH.parent.parent
+    manifest = json.loads((root / "package.json").read_text(encoding="utf-8"))
+    packages = json.loads((root / "package-lock.json").read_text(encoding="utf-8"))["packages"]
+    assert packages[""]["devDependencies"]["vite"] == manifest["devDependencies"]["vite"]
+    checked = set()
+    for name, package in packages.items():
+        if name.endswith("node_modules/vite"):
+            kind = "vite"
+        elif name.endswith("node_modules/rolldown") or "/node_modules/@rolldown/binding-" in "/" + name:
+            kind = "rolldown"
+        else:
+            continue
+        match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", package["version"])
+        assert match, (name, package["version"])
+        version = tuple(map(int, match.groups()))
+        if kind == "vite":
+            assert version >= (8, 2, 6), (name, version)
+            # The newer 8.3 line was also vulnerable before its 8.3.7 fix.
+            assert not ((8, 3, 0) <= version < (8, 3, 7)), (name, version)
+        else:
+            # The Vite 8 fix lives in the Rolldown native resolver, not only JS.
+            assert version >= (1, 2, 18), (name, version)
+        checked.add(kind)
+    assert checked == {"vite", "rolldown"}
 
 
 def load_module():

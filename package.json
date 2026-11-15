@@ -73,9 +73,9 @@
     "test:ops": "npm run test:runner-health && npm run test:runner-health-env && npm run test:runner-publish && npm run test:runner-env && npm run test:runner-permissions && npm run test:wsl-health-state && npm run test:wsl-runner-assets && npm run test:wsl-windows-policy",
     "test:archive-prices": "python3 scripts/test_archive_fetch_historical_prices.py",
     "test:dashboard": "npm run test:data-cache && npm run test:refresh-current && npm run test:unified && npm run test:archive-prices && npm run test:archive-usd && npm run test:historical-checker && npm run test:watcher && npm run test:validator && npm run test:refresh-telemetry && npm run test:live-snapshot && npm run test:rpc-redaction && npm run test:freshness && npm run test:ci-security && npm run test:ops && npm run archive:prices:validate && npm run check:historical-dogs && npm run test:pages-validation-classifier && npm run test:pages-deploy-controller && npm run test:pages-validation-runner",
-    "dev": "vite --host 0.0.0.0 --base=/Degen-Dogs-Mission-3/",
+    "dev": "vite --host 127.0.0.1 --base=/Degen-Dogs-Mission-3/",
     "build": "vite build --base=/Degen-Dogs-Mission-3/",
-    "preview": "vite preview --host 0.0.0.0",
+    "preview": "vite preview --host 127.0.0.1",
     "archive:mission1:discover": "python3 scripts/archive_mission1_discover.py",
     "archive:mission1:index": "python3 scripts/archive_mission1_index.py --incremental",
     "archive:mission1:full": "python3 scripts/archive_mission1_index.py --full-refresh",
@@ -83,6 +83,6 @@
     "archive:mission1:check": "python3 scripts/archive_mission1_index.py --check-config"
   },
   "devDependencies": {
-    "vite": "^8.2.0"
+    "vite": "~8.2.6"
   }
 }

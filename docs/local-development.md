@@ -3,7 +3,7 @@
 ## Requirements
 
 - Git
-- Node.js 22 or compatible modern Node
+- Node.js 22.12 or newer compatible Node
 - npm
 - Python 3.10 or newer
 - Internet access to Base RPC endpoints
@@ -33,8 +33,13 @@ npm run dev
 Open:
 
 ```text
-http://localhost:5173/Degen-Dogs-Mission-3/
+http://127.0.0.1:5173/Degen-Dogs-Mission-3/
 ```
+
+Both `npm run dev` and `npm run preview` bind only to `127.0.0.1`, not the
+local network. Do not add `--host 0.0.0.0` or use these development servers as
+production hosting. Keep Vite and its Rolldown native dependencies patched;
+loopback binding is additional protection, not a substitute for security updates.
 
 ## Production build
 
