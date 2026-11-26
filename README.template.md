@@ -10,7 +10,6 @@ the template and generator, not README.md directly.
 
 ## Quick links
 
-- Live dashboard: {{LIVE_DASHBOARD_LINK}}
 - Documentation index: [`docs/`](docs/)
 - Reconstruction / backup runbook: [`reconstruction/`](reconstruction/)
 - Generated CSV/JSON exports: [`generated/`](generated/)
@@ -20,6 +19,19 @@ the template and generator, not README.md directly.
 - Historical archive workspace: [`archive/`](archive/)
 - Degen Dogs website: [degendogs.club](https://degendogs.club/)
 - Degen Dogs docs: [docs.degendogs.club](https://docs.degendogs.club/)
+
+## Screenshots
+
+The GitHub Pages site is no longer hosted. These shots show the last checked-in
+snapshot (28 October 2026, Dog #844) running locally.
+
+![Current auction and feed](docs/screenshots/overview.png)
+
+![Searchable auction history](docs/screenshots/auction-history.png)
+
+![Search results](docs/screenshots/search.png)
+
+![Mission 2 auction history](docs/screenshots/mission2-history.png)
 
 ## What this is
 
@@ -39,13 +51,13 @@ inspect, fork, rebuild, and share. This repo keeps the data pipeline, SQL query 
 generated exports, dashboard shell, and historical archive work together so the
 community can audit how the public snapshot is produced.
 
-## Live dashboard
+## Dashboard
 
-Open the dashboard here:
+The GitHub Pages site is no longer hosted. The screenshots above show the last
+checked-in snapshot. CSV/JSON exports remain in [`generated/`](generated/). To
+preview the dashboard locally, use `npm ci --ignore-scripts` and `npm run dev`.
 
-<https://ael-dev3.github.io/Degen-Dogs-Mission-3/>
-
-The public site shows:
+The snapshot includes:
 
 - current Dog, current high bid, high bidder, and countdown,
 - recent winners and settled auction history,
